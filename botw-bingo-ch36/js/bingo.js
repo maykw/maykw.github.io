@@ -16,7 +16,7 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 
 	var lineCheckList = [];
 
-	if (size == 5) {
+	if (size == 6) {
 		lineCheckList[1]  = [1,2,3,4,5,10,15,20,6,12,18,24];
 		lineCheckList[2]  = [0,2,3,4,6,11,16,21];
 		lineCheckList[3]  = [0,1,3,4,7,12,17,22];
@@ -46,6 +46,19 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		lineCheckList[23] = [2,7,12,17,20,21,23,24];
 		lineCheckList[24] = [20,21,22,24,3,8,13,18];
 		lineCheckList[25] = [0,6,12,18,20,21,22,23,19,14,9,4];
+
+		lineCheckList[26] = [0,5,10,20,16,17,18,19];
+		lineCheckList[27] = [15,17,18,19,1,6,11,21,20,12,8,4];
+		lineCheckList[28] = [15,16,18,19,2,7,12,22];
+		lineCheckList[29] = [15,16,17,19,23,13,8,3,24,12,6,0];
+		lineCheckList[30] = [4,9,14,24,15,16,17,18];
+
+		lineCheckList[31] = [0,5,10,15,16,12,8,4,21,22,23,24];
+		lineCheckList[32] = [20,22,23,24,1,6,11,16];
+		lineCheckList[33] = [2,7,12,17,20,21,23,24];
+		lineCheckList[34] = [20,21,22,24,3,8,13,18];
+		lineCheckList[35] = [0,6,12,18,20,21,22,23,19,14,9,4];
+		lineCheckList[36] = [15,16,18,19,2,7,12,22];
 	}
 
 	function difficulty(i) {
@@ -87,18 +100,18 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		Table1.splice(Rem5, 0, 4);
 
 		i--;
-		RemT = RemT%5;		//  Between 0 and 4, fairly uniformly.
-		x = (i+RemT)%5;		//  RemT is horizontal shift to put any diagonal on the main diagonal.
-		y = Math.floor(i/5);
+		RemT = RemT%6;		//  Between 0 and 5, fairly uniformly.
+		x = (i+RemT)%6;		//  RemT is horizontal shift to put any diagonal on the main diagonal.
+		y = Math.floor(i/6);
 
 		// The Tables are set into a single magic square template
 		// Some are the same up to some rotation, reflection, or row permutation.
 		// However, all genuinely different magic squares can arise in this fashion.
-		var e5 = Table5[(x + 3*y)%5];
-		var e1 = Table1[(3*x + y)%5];
+		var e5 = Table5[(x + 3*y)%6];
+		var e1 = Table1[(3*x + y)%6];
 
 		// Table5 controls the 5* part and Table1 controls the 1* part.
-		value = 5*e5 + e1;
+		value = 6*e5 + e1;
 
 		if (MODE == "short") { value = Math.floor(value/2); } // if short mode, limit difficulty
 			else if (MODE == "long") { value = Math.floor((value + 25) / 2); }
@@ -129,13 +142,13 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 	}
 
 	var bingoBoard = []; //the board itself stored as an array first
-	for (var i=1;i<=25;i++) {
+	for (var i=1;i<=36;i++) {
 		bingoBoard[i] = {difficulty: difficulty(i)}; //array with objects that
 		//console.log(bingoBoard[i].difficulty);       //store the difficulty
-	}                                          // in order 1-25
+	}                                          // in order 1-36
 
 	//populate the bingo board in the array
-	for (i=1; i<=25; i++) {
+	for (i=1; i<=36; i++) {
 		var getDifficulty = bingoBoard[i].difficulty - 1; // difficulty of current square
 		// check if difficulty was there before, causing duplication issues (maybe)
 		var prevIndex = bingoBoard.slice(1,i).findIndex(b=>b.difficulty==(getDifficulty+1))+1;
@@ -175,7 +188,7 @@ function gup( name ) {
 }
 
 var bingo = function() {
-	var size = 5;
+	var size = 6;
 	var board = gup('board') || "normal_v1";
 	var LANG = gup('lang') || 'name';
 	var SEED = gup("seed");
@@ -214,7 +227,7 @@ var bingo = function() {
 			var name = $(this).html();
 			var items = [];
 			var cells = $('#bingo .'+ line);
-			for (var i = 0; i < 5; i++) {
+			for (var i = 0; i < 6; i++) {
 				items.push( encodeURIComponent($(cells[i]).html()) );
 			}
 			window.open('bingo-popout.html#'+ name +'='+ items.join(';;;'),"_blank","toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=no, resizable=no, copyhistory=no, width=220, height=460"); }
@@ -238,16 +251,16 @@ var bingo = function() {
 				var slot = parseInt($(this).attr('id').slice(4));
 				// maybe unhide more goals
 				// dividable by 5? nothing to the right
-				if (slot % 5 != 0) {
+				if (slot % 6 != 0) {
 					$('#slot'+(slot+1)).removeClass('hidden');
 				}
 				// nothing to the left
-				if (slot % 5 != 1) {
+				if (slot % 6 != 1) {
 					$('#slot'+(slot-1)).removeClass('hidden');
 				}
 				// top down doesn't matter
-				$('#slot'+(slot+5)).removeClass('hidden');
-				$('#slot'+(slot-5)).removeClass('hidden');
+				$('#slot'+(slot+6)).removeClass('hidden');
+				$('#slot'+(slot-6)).removeClass('hidden');
 			}
 		}
 	);
@@ -270,7 +283,7 @@ var bingo = function() {
 	var bingoBoard = getBingoBoard(bingoList, size, {seed: SEED, mode: MODE, lang: LANG});
 
 	//populate the actual table on the page
-	for (i=1; i<=25; i++) {
+	for (i=1; i<=36; i++) {
 		$('#slot'+i).append(bingoBoard[i].name);
 		if (EXPLORATION && i != 7 && i != 19) {
 			$('#slot'+i).addClass('hidden');
