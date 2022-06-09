@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>塞尔达荒野之息Bingo</title>
+
+    <!-- Style -->
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,700" rel="stylesheet">
+    <link href="./css/bingo.css" rel="stylesheet" type="text/css">
+    <link href="./css/style.css" rel="stylesheet" type="text/css">
+
+    <!-- Scripts -->
+    <script src="./js/jquery.min.js"></script>
+    <script src="./js/seedrandom-min.js" type="text/javascript"></script>
+    <script src="./js/bingo.js" type="text/javascript"></script>
+
+    <!-- Bingo Table -->
+    <!--<script src="./tables/board.js" type="text/javascript"></script>-->
+    
+    <!-- Call bingo function -->
+    <script>
+        bingo();
+    </script>
+</head>
+
+<body>
+    <div id="wrap">
+        <div id="main">
+            <div class="container">
+                <div id="bingoPage">
+
+                    <div id="about_bingo">
+                        <h2 style="margin-top:15px; padding-top:0px">生成一张新图</h2>
+
+                        <p><span class="note">注意：请用同一个链接作为比赛目标。</span></p>
+                        <p style="margin-top:20px;" id="sortButtons">
+                            <a class="sortButton" href="#" onclick="reseedPage();">正常卡</a>
+                            <a class="sortButton" href="#" onclick="reseedPage('short');">短卡</a>
+                            <a class="sortButton" href="#" onclick="reseedPage('long');">长卡</a>
+                            <div><input id="exploration-check" type="checkbox">探索模式</div>
+                        </p>
+
+                        <h2 style="margin-top:35px; padding-top:0px">Bingo存档要求</h2>
+                        <ul>
+                            <li>从拿伞的时光神殿开始。</li>
+                            <li>开始前请清空背包中所有物品。</li>
+                            <li>你的存档♥必须还未离开初始台地。</li>
+                            <li>存档中不要存在任何非必要步骤。</li>
+                            <li>存档必须解完台地的四个神庙，但并未兑换试炼证。</li>
+                            <li><a href="http://pastebin.com/fEGxPfNd">设置Bingo文件指南</a></li>
+                        </ul>
+                        <br />
+                        <h2 style="margin-top:5px; padding-top:0px">规则</h2>
+                        <ul>
+                            <li>允许使用Amiibo。</li>
+                            <li>如果所有玩家同意，可以装载DLC。</li>
+                            <li>"完成x神庙"包括台地的四个神庙。</li>
+                            <li>"获得x铠甲"是指衣服，除非说明是套装。</li>
+                            <li>马神并不是大精灵。</li>
+                            <li>任务要求的物品必须保留到比赛结束。</li>
+                        </ul>
+                        <br />
+                        <h2 style="margin-top:5px; padding-top:0px">其他游戏种类:</h2>
+                        <ul>
+                            <li><a href="?board=normal_v1">随机任务(v1)</a></li>
+                            <li><a href="?board=normal_v2">随机任务(v2,正在研发)</a></li>
+                            <li><a href="https://jsbotw.web.fc2.com/exp_bingo/bingo.html">初始台地</a></li>
+                            <li><a href="?board=korok">克罗格</a></li>
+                            <li><a href="?board=shrine">神庙</a></li>
+                        </ul><br />
+                        <h2>Goal list for bingosync</h2>
+                        <p><a href="www.bingosync.com">bingosync</a> is a website to synchronize working on a bingoboard, since this goallist might be
+                        under construction, passing this as a custom board might be required</p>
+                        <textarea id="bingosync-goals"></textarea>
+                        <p><span class="note right">Breath of the Wild Bingo by the <a href="https://discord.gg/rF4XeFC">BotW Speedrun Discord</a></br>
+                                Great Plateau Bingo maintained by the <a href="https://discord.gg/7wfC6Pk">japanese community</a></br>
+                                This board was created by <a href="https://www.twitch.tv/blaust">Blaust</a>. </br>
+                                Japanese translation by <a href="https://twitter.com/phantasm_cubist">Phanty</a>. </br>
+                                Chinese translation by <a href="https://live.bilibili.com/9143537">May</a>. </span></p>
+                    </div>
+
+                    <div id="results">
+                        <table id="bingo">
+                            <tbody>
+                                <tr>
+                                    <td class="popout" id="tlbr">TL-BR</td>
+                                    <td class="popout" id="col1">COL1</td>
+                                    <td class="popout" id="col2">COL2</td>
+                                    <td class="popout" id="col3">COL3</td>
+                                    <td class="popout" id="col4">COL4</td>
+                                    <td class="popout" id="col5">COL5</td>
+                                    <td class="popout" id="col6">COL6</td>
+                                </tr>
+                                <tr>
+                                    <td class="popout" id="row1">ROW1</td>
+                                    <td class="row1 col1 tlbr" id="slot1"></td>
+                                    <td class="row1 col2" id="slot2"></td>
+                                    <td class="row1 col3" id="slot3"></td>
+                                    <td class="row1 col4" id="slot4"></td>
+                                    <td class="row1 col5 bltr" id="slot5"></td>
+                                    <td class="row1 col6" id="slot26"></td>
+                                </tr>
+                                <tr>
+                                    <td class="popout" id="row2">ROW2</td>
+                                    <td class="row2 col1" id="slot6"></td>
+                                    <td class="row2 col2 tlbr" id="slot7"></td>
+                                    <td class="row2 col3" id="slot8"></td>
+                                    <td class="row2 col4 bltr" id="slot9"></td>
+                                    <td class="row2 col5" id="slot10"></td>
+                                    <td class="row2 col6" id="slot27"></td>
+                                </tr>
+                                <tr>
+                                    <td class="popout" id="row3">ROW3</td>
+                                    <td class="row3 col1" id="slot11"></td>
+                                    <td class="row3 col2" id="slot12"></td>
+                                    <td class="row3 col3 tlbr bltr" id="slot13"></td>
+                                    <td class="row3 col4" id="slot14"></td>
+                                    <td class="row3 col5" id="slot15"></td>
+                                    <td class="row3 col6" id="slot28"></td>
+                                </tr>
+                                <tr>
+                                    <td class="popout" id="row4">ROW4</td>
+                                    <td class="row4 col1" id="slot16"></td>
+                                    <td class="row4 col2 bltr" id="slot17"></td>
+                                    <td class="row4 col3" id="slot18"></td>
+                                    <td class="row4 col4 tlbr" id="slot19"></td>
+                                    <td class="row4 col5" id="slot20"></td>
+                                    <td class="row4 col6" id="slot29"></td>
+                                </tr>
+                                <tr>
+                                    <td class="popout" id="row5">ROW5</td>
+                                    <td class="row5 col1 bltr" id="slot21"></td>
+                                    <td class="row5 col2" id="slot22"></td>
+                                    <td class="row5 col3" id="slot23"></td>
+                                    <td class="row5 col4" id="slot24"></td>
+                                    <td class="row5 col5 tlbr" id="slot25"></td>
+                                    <td class="row5 col6" id="slot30"></td>
+                                </tr>
+                                <tr>
+                                    <td class="popout" id="row6">ROW6</td>
+                                    <td class="row6 col1 bltr" id="slot31"></td>
+                                    <td class="row6 col2" id="slot32"></td>
+                                    <td class="row6 col3" id="slot33"></td>
+                                    <td class="row6 col4" id="slot34"></td>
+                                    <td class="row6 col5 tlbr" id="slot35"></td>
+                                    <td class="row6 col6" id="slot36"></td>
+                                </tr>
+                                <tr>
+                                    <td class="popout" id="bltr">BL-TR</td>
+                                    <td colspan="6" style="display:none;"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
