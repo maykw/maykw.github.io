@@ -1,7 +1,7 @@
 import json
 import csv
 
-goallist = [[] for i in range(25)]
+goallist = [[] for i in range(36)]
 with open('goallist.csv') as glf:
     goalreader = csv.reader(glf)
     for goal in list(goalreader)[1:]:
