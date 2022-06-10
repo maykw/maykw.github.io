@@ -5,10 +5,11 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 	var MODE = options.mode;
 
 	function mirror(i) {
-		if      (i == 0) { i = 4; }
-		else if (i == 1) { i = 3; }
-		else if (i == 3) { i = 1; }
-		else if (i == 4) { i = 0; }
+		if      (i == 0) { i = 5; }
+		else if (i == 1) { i = 4; }
+		else if (i == 2) { i = 3; }
+		else if (i == 3) { i = 2; }
+		else if (i == 4) { i = 1; }
 		return i;
 	}
 
@@ -72,6 +73,7 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		var Rem2 = Rem8%2;
 		var Rem5 = Num3%5;
 		var Rem3 = Num3%3;	// Note that Rem2, Rem3, Rem4, and Rem5 are mathematically independent.
+		var Rem9 = Num3%7;
 		var RemT = Math.floor(Num3/120);	// This is between 0 and 8
 
 		// The idea is to begin with an array containing a single number, 0.
@@ -82,6 +84,7 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		Table5.splice(Rem3, 0, 2);
 		Table5.splice(Rem4, 0, 3);
 		Table5.splice(Rem5, 0, 4);
+		Table5.splice(Rem9, 0, 5);
 
 		Num3 = Math.floor(SEED/1000);	// Table1 will use the next 3 digits.
 		Num3 = Num3%1000;
@@ -91,6 +94,7 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		Rem2 = Rem8%2;
 		Rem5 = Num3%5;
 		Rem3 = Num3%3;
+		Rem9 = Num3%7;
 		RemT = RemT * 8 + Math.floor(Num3/120);	 // This is between 0 and 64.
 
 		var Table1 = [0];
@@ -98,6 +102,7 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		Table1.splice(Rem3, 0, 2);
 		Table1.splice(Rem4, 0, 3);
 		Table1.splice(Rem5, 0, 4);
+		Table1.splice(Rem9, 0, 5);
 
 		i--;
 		RemT = RemT%6;		//  Between 0 and 5, fairly uniformly.
@@ -114,8 +119,8 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		value = 6*e5 + e1;
 
 		if (MODE == "short") { value = Math.floor(value/2); } // if short mode, limit difficulty
-			else if (MODE == "long") { value = Math.floor((value + 25) / 2); }
-            else if (MODE == "special") { value = Math.floor((value + 25) / 2); }
+			else if (MODE == "long") { value = Math.floor((value + 36) / 2); }
+            else if (MODE == "special") { value = Math.floor((value + 18) / 2); }
 			value++;
 		return value;
 	}
@@ -248,7 +253,7 @@ var bingo = function() {
 				$(this).removeClass('redsquare')
 			} else {
 				$(this).addClass('greensquare');
-				var slot = parseInt($(this).attr('id').slice(4));
+				var slot = parseInt($(this).attr('id').slice(5));
 				// maybe unhide more goals
 				// dividable by 5? nothing to the right
 				if (slot % 6 != 0) {
@@ -270,12 +275,14 @@ var bingo = function() {
 	$("#row3").hover(function() { $(".row3").addClass("hover"); }, function() {	$(".row3").removeClass("hover"); });
 	$("#row4").hover(function() { $(".row4").addClass("hover"); }, function() {	$(".row4").removeClass("hover"); });
 	$("#row5").hover(function() { $(".row5").addClass("hover"); }, function() {	$(".row5").removeClass("hover"); });
+	$("#row6").hover(function() { $(".row6").addClass("hover"); }, function() {	$(".row6").removeClass("hover"); });
 
 	$("#col1").hover(function() { $(".col1").addClass("hover"); }, function() {	$(".col1").removeClass("hover"); });
 	$("#col2").hover(function() { $(".col2").addClass("hover"); }, function() {	$(".col2").removeClass("hover"); });
 	$("#col3").hover(function() { $(".col3").addClass("hover"); }, function() {	$(".col3").removeClass("hover"); });
 	$("#col4").hover(function() { $(".col4").addClass("hover"); }, function() {	$(".col4").removeClass("hover"); });
 	$("#col5").hover(function() { $(".col5").addClass("hover"); }, function() {	$(".col5").removeClass("hover"); });
+	$("#col6").hover(function() { $(".col6").addClass("hover"); }, function() {	$(".col6").removeClass("hover"); });
 
 	$("#tlbr").hover(function() { $(".tlbr").addClass("hover"); }, function() {	$(".tlbr").removeClass("hover"); });
 	$("#bltr").hover(function() { $(".bltr").addClass("hover"); }, function() {	$(".bltr").removeClass("hover"); });
