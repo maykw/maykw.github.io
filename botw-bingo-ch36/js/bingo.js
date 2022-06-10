@@ -118,8 +118,8 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		value = 6*e5 + e1;
 
 		if (MODE == "short") { value = Math.floor(value/2); } // if short mode, limit difficulty
-			else if (MODE == "long") { value = Math.floor((value + 36) / 2); }
-            else if (MODE == "special") { value = Math.floor((value + 36) / 2); }
+			else if (MODE == "long") { value = Math.floor((value + 25) / 2); }
+            else if (MODE == "special") { value = Math.floor((value + 25) / 2); }
 			value++;
 		return value;
 	}
