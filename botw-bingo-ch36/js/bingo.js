@@ -5,10 +5,11 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 	var MODE = options.mode;
 
 	function mirror(i) {
-		if      (i == 0) { i = 4; }
-		else if (i == 1) { i = 3; }
-		else if (i == 3) { i = 1; }
-		else if (i == 4) { i = 0; }
+		if      (i == 0) { i = 5; }
+		else if (i == 1) { i = 4; }
+		else if (i == 3) { i = 3; }
+		else if (i == 4) { i = 2; }
+		else if (i == 5) { i = 1; }
 		return i;
 	}
 
@@ -72,7 +73,7 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		var Rem2 = Rem8%2;
 		var Rem5 = Num3%5;
 		var Rem3 = Num3%3;	// Note that Rem2, Rem3, Rem4, and Rem5 are mathematically independent.
-		var Rem9 = Num3%10;
+		var Rem9 = Num3%7;
 		var RemT = Math.floor(Num3/120);	// This is between 0 and 8
 
 		// The idea is to begin with an array containing a single number, 0.
@@ -93,7 +94,7 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		Rem2 = Rem8%2;
 		Rem5 = Num3%5;
 		Rem3 = Num3%3;
-		Rem9 = Num3%10;
+		Rem9 = Num3%7;
 		RemT = RemT * 8 + Math.floor(Num3/120);	 // This is between 0 and 64.
 
 		var Table1 = [0];
@@ -118,8 +119,8 @@ function getBingoBoard(bingoList, size, options = {seed:"", mode:"normal", lang:
 		value = 6*e5 + e1;
 
 		if (MODE == "short") { value = Math.floor(value/2); } // if short mode, limit difficulty
-			else if (MODE == "long") { value = Math.floor((value + 25) / 2); }
-            else if (MODE == "special") { value = Math.floor((value + 25) / 2); }
+			else if (MODE == "long") { value = Math.floor((value + 36) / 2); }
+            else if (MODE == "special") { value = Math.floor((value + 36) / 2); }
 			value++;
 		return value;
 	}
@@ -252,7 +253,7 @@ var bingo = function() {
 				$(this).removeClass('redsquare')
 			} else {
 				$(this).addClass('greensquare');
-				var slot = parseInt($(this).attr('id').slice(4));
+				var slot = parseInt($(this).attr('id').slice(5));
 				// maybe unhide more goals
 				// dividable by 5? nothing to the right
 				if (slot % 6 != 0) {
